@@ -1,0 +1,25 @@
+{
+  "name": "nodetest",
+  "version": "1.0.0",
+  "description": "test scripts",
+  "main": "index.js",
+  "scripts": {
+    "test": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/juncaixinchi/NodeTest.git"
+  },
+  "keywords": [
+    "node"
+  ],
+  "author": "juncaixinchi",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/juncaixinchi/NodeTest/issues"
+  },
+  "homepage": "https://github.com/juncaixinchi/NodeTest#readme",
+  "dependencies": {
+    "fs-xattr": "^0.1.15"
+  }
+}
