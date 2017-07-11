@@ -1,16 +1,19 @@
 const xattr = require('fs-xattr')
 
-const path = '/media/lxw/Lixw/file_created_in_linux_2.txt'
+// const path = '/media/lxw/2E289A4F712081E9/aa.txt'
+// const path = '/home/lxw/tmpforusb/c.txt'
+const path = './test/c.txt'
+console.log('path is ', path)
 
 let list = []
 const attrs = {}
 
 try {
-  xattr.setSync(path, 'user.key', '2333333')
-  xattr.setSync(path, 'user.author', 'juncai')
+  xattr.setSync(path, 'user.key', 'ccc')
+  xattr.setSync(path, 'user.author', 'cc')
   console.log('set xattr success!')
 } catch (e) {
-  console.log('set xattr failed!')
+  console.log('set xattr failed!', e)
 }
 
 try {
@@ -21,5 +24,5 @@ try {
   console.log('list xattr success!')
   console.log('attrs-value: ', attrs)
 } catch (e) {
-  console.log('list xattr failed!')
+  console.log('list xattr failed!', e)
 }
