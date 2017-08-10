@@ -20,6 +20,9 @@
   },
   "homepage": "https://github.com/juncaixinchi/NodeTest#readme",
   "dependencies": {
+    "bluebird": "^3.5.0"
+  },
+  "optionalDependencies": {
     "fs-xattr": "^0.1.15"
   }
 }

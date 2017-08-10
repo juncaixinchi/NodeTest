@@ -1,28 +1,15 @@
-const xattr = require('fs-xattr')
+const { readXattr, setXattr } = require('./src/xattr')
 
-// const path = '/media/lxw/2E289A4F712081E9/aa.txt'
-// const path = '/home/lxw/tmpforusb/c.txt'
-const path = './test/c.txt'
-console.log('path is ', path)
+const filePath = './test/a.txt'
 
-let list = []
-const attrs = {}
-
-try {
-  xattr.setSync(path, 'user.key', 'ccc')
-  xattr.setSync(path, 'user.author', 'cc')
-  console.log('set xattr success!')
-} catch (e) {
-  console.log('set xattr failed!', e)
+const write = (path, data) => {
+  setXattr(path, data, (error, newData) => console.log('error:', error, 'data:', newData))
 }
 
-try {
-  list = xattr.listSync(path)
-  list.map(attr => ([attr, xattr.getSync(path, attr).toString()])).forEach((arr) => {
-    attrs[arr[0]] = arr[1]
-  })
-  console.log('list xattr success!')
-  console.log('attrs-value: ', attrs)
-} catch (e) {
-  console.log('list xattr failed!', e)
+const read = (path) => {
+  readXattr(path, (error, attr) => console.log('error:', error, 'data:', attr))
 }
+
+write(filePath, { a: 'a', b: 'b' })
+
+// read(filePath)
