@@ -7,7 +7,7 @@ const FRUITMIX = 'user.fruitmix'
 let xattr
 try {
   if (os.platform() === 'linux' || os.platform() === 'darwin') {
-    console.log('os.platform', os.platform())
+    // console.log('os.platform', os.platform())
     xattr = Promise.promisifyAll(require('fs-xattr'))
   } else if (os.platform() === 'win32') {
     xattr = {
@@ -16,8 +16,8 @@ try {
         console.log('read xattr', data)
         return data
       },
-      setXattrAsync: async (target, string, attr) => {
-        await fs.writeFileAsync(`${target}:${string}`, JSON.stringify(attr))
+      setAsync: async (target, string, attr) => {
+        await fs.writeFileAsync(`${target}:${string}`, attr)
       }
     }
   }
@@ -34,7 +34,8 @@ const readXattrAsync = async (target) => {
     console.log('readXattrAsync error: ', e.code || e)
   }
   const stats = await fs.lstatAsync(target)
-  if (attr && attr.htime && attr.htime === stats.mtime.getTime()) return attr
+  const htime = os.platform() === 'win32' ? stats.atime.getTime() : stats.mtime.getTime()
+  if (attr && attr.htime && attr.htime === htime) return attr
   return null
 }
 
@@ -44,12 +45,12 @@ const readXattr = (target, callback) => {
 
 const setXattrAsync = async (target, attr) => {
   const stats = await fs.lstatAsync(target)
-  const htime = stats.mtime.getTime()
+  const htime = os.platform() === 'win32' ? stats.atime.getTime() : stats.mtime.getTime()
   const newAttr = Object.assign({}, attr, { htime })
   try {
     await xattr.setAsync(target, FRUITMIX, JSON.stringify(newAttr))
   } catch (e) {
-    console.log('setXattrAsync error: ', e.code)
+    console.log('setXattrAsync error: ', e.code || e)
   }
   return newAttr
 }
@@ -58,4 +59,4 @@ const setXattr = (target, attr, callback) => {
   setXattrAsync(target, attr).then(na => callback(null, na)).catch(error => callback(error))
 }
 
-module.exports = { readXattrAsync, readXattr, setXattrAsync, setXattr }
+export { readXattrAsync, readXattr, setXattrAsync, setXattr }
