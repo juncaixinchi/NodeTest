@@ -25,6 +25,7 @@
     "ftp": "^0.3.10"
   },
   "optionalDependencies": {
-    "fs-xattr": "^0.1.15"
+    "fs-xattr": "^0.1.17",
+    "fs-ads": "^1.0.0"
   }
 }
